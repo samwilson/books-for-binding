@@ -4,29 +4,30 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "3861f64ab33498eaaf8683d8d710a993",
+    "content-hash": "679b1da9fdde1575c174a7d8ae715f2d",
     "packages": [
         {
             "name": "addwiki/mediawiki-api",
-            "version": "0.7.1",
+            "version": "0.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/addwiki/mediawiki-api.git",
-                "reference": "1d010d323a1772c1dedb7ea37f3e08ef649004d0"
+                "reference": "f52fc3760d82774512d344e41c45c878a2c6659e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/addwiki/mediawiki-api/zipball/1d010d323a1772c1dedb7ea37f3e08ef649004d0",
-                "reference": "1d010d323a1772c1dedb7ea37f3e08ef649004d0",
+                "url": "https://api.github.com/repos/addwiki/mediawiki-api/zipball/f52fc3760d82774512d344e41c45c878a2c6659e",
+                "reference": "f52fc3760d82774512d344e41c45c878a2c6659e",
                 "shasum": ""
             },
             "require": {
-                "addwiki/mediawiki-api-base": "~2.0",
+                "addwiki/mediawiki-api-base": "~2.4",
                 "addwiki/mediawiki-datamodel": "~0.7.0"
             },
             "require-dev": {
                 "jakub-onderka/php-parallel-lint": "^0.9.2",
-                "mediawiki/mediawiki-codesniffer": "^0.7.2",
+                "mediawiki/mediawiki-codesniffer": "^13.0",
+                "monolog/monolog": "^1.23",
                 "phpunit/phpunit": "~4.8"
             },
             "type": "library",
@@ -53,7 +54,7 @@
             "keywords": [
                 "mediawiki"
             ],
-            "time": "2017-03-08T14:33:42+00:00"
+            "time": "2017-11-20T03:08:06+00:00"
         },
         {
             "name": "addwiki/mediawiki-api-base",
@@ -111,17 +112,22 @@
         },
         {
             "name": "addwiki/mediawiki-datamodel",
-            "version": "0.7",
+            "version": "0.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/addwiki/mediawiki-datamodel.git",
-                "reference": "360a2007fd30f98633bd37d8f8ba71a76a37eb63"
+                "reference": "05dd783715a92ec5449bab4091c0482cf3fcface"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/addwiki/mediawiki-datamodel/zipball/360a2007fd30f98633bd37d8f8ba71a76a37eb63",
-                "reference": "360a2007fd30f98633bd37d8f8ba71a76a37eb63",
+                "url": "https://api.github.com/repos/addwiki/mediawiki-datamodel/zipball/05dd783715a92ec5449bab4091c0482cf3fcface",
+                "reference": "05dd783715a92ec5449bab4091c0482cf3fcface",
                 "shasum": ""
+            },
+            "require-dev": {
+                "jakub-onderka/php-parallel-lint": "0.9.2",
+                "mediawiki/mediawiki-codesniffer": "^13.0",
+                "phpunit/phpunit": "~4.8.0|~5.3.0"
             },
             "type": "library",
             "extra": {
@@ -147,7 +153,7 @@
             "keywords": [
                 "mediawiki"
             ],
-            "time": "2017-03-08T13:57:59+00:00"
+            "time": "2018-01-10T19:14:13+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
@@ -534,44 +540,45 @@
         },
         {
             "name": "symfony/console",
-            "version": "v3.3.10",
+            "version": "v3.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "116bc56e45a8e5572e51eb43ab58c769a352366c"
+                "reference": "26b6f419edda16c19775211987651cb27baea7f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/116bc56e45a8e5572e51eb43ab58c769a352366c",
-                "reference": "116bc56e45a8e5572e51eb43ab58c769a352366c",
+                "url": "https://api.github.com/repos/symfony/console/zipball/26b6f419edda16c19775211987651cb27baea7f1",
+                "reference": "26b6f419edda16c19775211987651cb27baea7f1",
                 "shasum": ""
             },
             "require": {
                 "php": "^5.5.9|>=7.0.8",
-                "symfony/debug": "~2.8|~3.0",
+                "symfony/debug": "~2.8|~3.0|~4.0",
                 "symfony/polyfill-mbstring": "~1.0"
             },
             "conflict": {
-                "symfony/dependency-injection": "<3.3"
+                "symfony/dependency-injection": "<3.4",
+                "symfony/process": "<3.3"
             },
             "require-dev": {
                 "psr/log": "~1.0",
-                "symfony/config": "~3.3",
-                "symfony/dependency-injection": "~3.3",
-                "symfony/event-dispatcher": "~2.8|~3.0",
-                "symfony/filesystem": "~2.8|~3.0",
-                "symfony/process": "~2.8|~3.0"
+                "symfony/config": "~3.3|~4.0",
+                "symfony/dependency-injection": "~3.4|~4.0",
+                "symfony/event-dispatcher": "~2.8|~3.0|~4.0",
+                "symfony/lock": "~3.4|~4.0",
+                "symfony/process": "~3.3|~4.0"
             },
             "suggest": {
                 "psr/log": "For using the console logger",
                 "symfony/event-dispatcher": "",
-                "symfony/filesystem": "",
+                "symfony/lock": "",
                 "symfony/process": ""
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.3-dev"
+                    "dev-master": "3.4-dev"
                 }
             },
             "autoload": {
@@ -598,36 +605,36 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2017-10-02T06:42:24+00:00"
+            "time": "2018-01-29T09:03:43+00:00"
         },
         {
             "name": "symfony/debug",
-            "version": "v3.3.10",
+            "version": "v4.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/debug.git",
-                "reference": "eb95d9ce8f18dcc1b3dfff00cb624c402be78ffd"
+                "reference": "c77bb31d0f6310a2ac11e657475d396a92e5dc54"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/debug/zipball/eb95d9ce8f18dcc1b3dfff00cb624c402be78ffd",
-                "reference": "eb95d9ce8f18dcc1b3dfff00cb624c402be78ffd",
+                "url": "https://api.github.com/repos/symfony/debug/zipball/c77bb31d0f6310a2ac11e657475d396a92e5dc54",
+                "reference": "c77bb31d0f6310a2ac11e657475d396a92e5dc54",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.5.9|>=7.0.8",
+                "php": "^7.1.3",
                 "psr/log": "~1.0"
             },
             "conflict": {
-                "symfony/http-kernel": ">=2.3,<2.3.24|~2.4.0|>=2.5,<2.5.9|>=2.6,<2.6.2"
+                "symfony/http-kernel": "<3.4"
             },
             "require-dev": {
-                "symfony/http-kernel": "~2.8|~3.0"
+                "symfony/http-kernel": "~3.4|~4.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.3-dev"
+                    "dev-master": "4.0-dev"
                 }
             },
             "autoload": {
@@ -654,20 +661,20 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
-            "time": "2017-10-02T06:42:24+00:00"
+            "time": "2018-01-18T22:19:33+00:00"
         },
         {
             "name": "symfony/dom-crawler",
-            "version": "v3.3.10",
+            "version": "v3.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dom-crawler.git",
-                "reference": "40dafd42d5dad7fe5ad4e958413d92a207522ac1"
+                "reference": "09bd97b844b3151fab82f2fdd62db9c464b3910a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/40dafd42d5dad7fe5ad4e958413d92a207522ac1",
-                "reference": "40dafd42d5dad7fe5ad4e958413d92a207522ac1",
+                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/09bd97b844b3151fab82f2fdd62db9c464b3910a",
+                "reference": "09bd97b844b3151fab82f2fdd62db9c464b3910a",
                 "shasum": ""
             },
             "require": {
@@ -675,7 +682,7 @@
                 "symfony/polyfill-mbstring": "~1.0"
             },
             "require-dev": {
-                "symfony/css-selector": "~2.8|~3.0"
+                "symfony/css-selector": "~2.8|~3.0|~4.0"
             },
             "suggest": {
                 "symfony/css-selector": ""
@@ -683,7 +690,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.3-dev"
+                    "dev-master": "3.4-dev"
                 }
             },
             "autoload": {
@@ -710,20 +717,20 @@
             ],
             "description": "Symfony DomCrawler Component",
             "homepage": "https://symfony.com",
-            "time": "2017-10-02T06:42:24+00:00"
+            "time": "2018-01-03T07:37:34+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.6.0",
+            "version": "v1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296"
+                "reference": "78be803ce01e55d3491c1397cf1c64beb9c1b63b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296",
-                "reference": "2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/78be803ce01e55d3491c1397cf1c64beb9c1b63b",
+                "reference": "78be803ce01e55d3491c1397cf1c64beb9c1b63b",
                 "shasum": ""
             },
             "require": {
@@ -735,7 +742,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.6-dev"
+                    "dev-master": "1.7-dev"
                 }
             },
             "autoload": {
@@ -769,7 +776,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2017-10-11T12:05:26+00:00"
+            "time": "2018-01-30T19:27:44+00:00"
         },
         {
             "name": "tedivm/stash",
@@ -833,16 +840,16 @@
         },
         {
             "name": "wikisource/api",
-            "version": "1.3.4",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wikisource/api.git",
-                "reference": "cb95472204999e2d9465941e4652b3984fa98ae3"
+                "reference": "4f1cd807b77c9f103371df9a0a4ddbb5ee766468"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wikisource/api/zipball/cb95472204999e2d9465941e4652b3984fa98ae3",
-                "reference": "cb95472204999e2d9465941e4652b3984fa98ae3",
+                "url": "https://api.github.com/repos/wikisource/api/zipball/4f1cd807b77c9f103371df9a0a4ddbb5ee766468",
+                "reference": "4f1cd807b77c9f103371df9a0a4ddbb5ee766468",
                 "shasum": ""
             },
             "require": {
@@ -859,7 +866,7 @@
                 "monolog/monolog": "^1.21",
                 "phpdocumentor/phpdocumentor": "^2.9",
                 "phpunit/phpunit": "^5.6",
-                "tedivm/stash": "dev-master"
+                "tedivm/stash": "^0.14"
             },
             "type": "library",
             "autoload": {
@@ -872,7 +879,7 @@
                 "GPL-2.0+"
             ],
             "description": "A PHP API to Wikisources (all languages).",
-            "time": "2017-11-09T11:18:36+00:00"
+            "time": "2018-02-07T11:17:24+00:00"
         }
     ],
     "packages-dev": [],

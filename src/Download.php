@@ -92,7 +92,6 @@ class Download extends Command {
 			mkdir($htmlDir);
 		}
 		$filename = $htmlDir.'/'. $prefix .'_' . $this->makeFilename($title) . '.html';
-		$this->io->text($filename);
 		file_put_contents( $filename, $html );
 	}
 

@@ -6,7 +6,7 @@
     },
     "require": {
         "wikisource/api": "^1.2",
-        "tedivm/stash": "*",
+        "tedivm/stash": "^0.14",
         "symfony/console": "^3.3"
     }
 }
