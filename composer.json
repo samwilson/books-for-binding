@@ -1,0 +1,12 @@
+{
+    "autoload": {
+        "psr-4": {
+            "Samwilson\\BooksForBinding\\": "src/"
+        }
+    },
+    "require": {
+        "wikisource/api": "^1.2",
+        "tedivm/stash": "*",
+        "symfony/console": "^3.3"
+    }
+}
