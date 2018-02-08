@@ -8,5 +8,11 @@
         "wikisource/api": "^1.2",
         "tedivm/stash": "^0.14",
         "symfony/console": "^3.3"
+    },
+    "require-dev": {
+        "jakub-onderka/php-parallel-lint": "^0.9",
+        "mediawiki/mediawiki-codesniffer": "^15.0",
+        "jakub-onderka/php-console-highlighter": "^0.3",
+        "mediawiki/minus-x": "^0.3"
     }
 }

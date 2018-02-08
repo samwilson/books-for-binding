@@ -38,12 +38,26 @@ class Convert extends Command
             mkdir($latexDir);
         }
 
+        $latexFiles = [];
         $htmlFiles = glob($indir.'/*.html');
         foreach ($htmlFiles as $htmlFile) {
-            $filename = pathinfo($htmlFile, PATHINFO_FILENAME);
+            $filename = pathinfo( $htmlFile, PATHINFO_FILENAME );
             $latexFile = $latexDir .'/'.$filename.'.tex';
             $this->io->writeln("Converting $filename");
             system("pandoc --from html --to latex --output '$latexFile' '$htmlFile'");
+            $latexFiles[] = $filename;
         }
+
+        // Create the main.tex file, which includes all pages.
+        $mainTexFile = dirname( $latexDir ) . '/main.tex';
+        $latexSource = '\\documentclass{book}'."\n"
+            .'\\usepackage{hyperref, booktabs, longtable, graphicx}'."\n"
+            .'\\begin{document}'."\n";
+        foreach ( $latexFiles as $file ) {
+            $latexSource .= '\\include{./latex/' . $file . '}' . "\n";
+        }
+        $latexSource .= '\\end{document}'."\n";
+        $this->io->writeln( "Writing $mainTexFile" );
+        file_put_contents( $mainTexFile, $latexSource );
     }
 }

@@ -84,6 +84,7 @@ class Download extends Command {
 		$requestParse = FluentRequest::factory()
 			->setAction( 'parse' )
 			->setParam( 'page', $title )
+            ->setParam( 'disablelimitreport', true )
 			->setParam( 'prop', 'text' );
 		$pageParse = $api->getRequest( $requestParse, 'parse' );
 		$html = $pageParse['parse']['text']['*'];
