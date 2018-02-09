@@ -11,3 +11,4 @@ install:
 script:
   - $TRAVIS_BUILD_DIR/vendor/bin/phpcs
   - $TRAVIS_BUILD_DIR/vendor/bin/minus-x check .
+  - $TRAVIS_BUILD_DIR/vendor/bin/parallel-lint . --exclude ./vendor
