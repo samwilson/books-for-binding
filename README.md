@@ -3,6 +3,8 @@ Books for Binding
 
 This is a system of producing LaTeX-formatted books, ready for binding, from Wikisource works.
 
+[![Build Status](https://travis-ci.org/samwilson/books-for-binding.svg?branch=master)](https://travis-ci.org/samwilson/books-for-binding)
+
 *It's a work-in-progress and not really ready for anyone to look at yet.*
 
 ## Installation
