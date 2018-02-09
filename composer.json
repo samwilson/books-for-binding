@@ -14,5 +14,10 @@
         "mediawiki/mediawiki-codesniffer": "^15.0",
         "jakub-onderka/php-console-highlighter": "^0.3",
         "mediawiki/minus-x": "^0.3"
+    },
+    "config": {
+        "platform": {
+            "php": "5.6"
+        }
     }
 }
