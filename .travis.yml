@@ -1,0 +1,13 @@
+language: php
+
+php:
+  - 5.5
+  - 5.6
+  - 7.0
+
+install:
+  - composer install
+
+script:
+  - $TRAVIS_BUILD_DIR/vendor/bin/phpcs
+  - $TRAVIS_BUILD_DIR/vendor/bin/minus-x check .

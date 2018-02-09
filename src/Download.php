@@ -22,21 +22,28 @@ class Download extends Command {
 	/** @var SymfonyStyle */
 	protected $io;
 
-	protected function configure()
-	{
-		$this->setName('download');
-		$this->setDescription('Download all the HTML of a given book from Wikisource');
+	/**
+	 * Configure this command.
+	 */
+	protected function configure() {
+		$this->setName( 'download' );
+		$this->setDescription( 'Download all the HTML of a given book from Wikisource' );
 		$langDesc = 'The language code of the Wikisource to scrape';
 		$this->addOption( 'lang', 'l', InputOption::VALUE_REQUIRED, $langDesc );
 		$titleDesc = 'The title of the work to download';
 		$this->addOption( 'title', 't', InputOption::VALUE_REQUIRED, $titleDesc );
-		$titleDesc = 'The output directory (the HTML files will be put in this directory); defaults to the current directory';
+		$titleDesc = 'The output directory (the HTML files will be put in this directory);'
+			. 'defaults to the current directory';
 		$this->addOption( 'outdir', 'o', InputOption::VALUE_OPTIONAL, $titleDesc );
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output)
-	{
-		$this->io = new SymfonyStyle($input, $output);
+	/**
+	 * @param InputInterface $input The input.
+	 * @param OutputInterface $output The output.
+	 * @return null|int null or 0 if everything went fine, or an error code
+	 */
+	protected function execute( InputInterface $input, OutputInterface $output ) {
+		$this->io = new SymfonyStyle( $input, $output );
 		// Wikisource API.
 		$wsApi = new WikisourceApi();
 
@@ -52,22 +59,22 @@ class Download extends Command {
 			return 1;
 		}
 		try {
-			$work = $wikisource->getWork($title);
-		} catch (UsageException $exception ) {
-			$this->io->error($exception->getMessage());
+			$work = $wikisource->getWork( $title );
+		} catch ( UsageException $exception ) {
+			$this->io->error( $exception->getMessage() );
 			return 1;
 		}
 
 		// Output directory.
-		$outDirValue = $input->getOption('outdir');
-		if (!is_dir($outDirValue)) {
-			$outDirValue = './'.$this->makeFilename($title);
-			if (!is_dir($outDirValue)) {
-				mkdir($outDirValue);
+		$outDirValue = $input->getOption( 'outdir' );
+		if ( !is_dir( $outDirValue ) ) {
+			$outDirValue = './'.$this->makeFilename( $title );
+			if ( !is_dir( $outDirValue ) ) {
+				mkdir( $outDirValue );
 			}
 		}
-		$this->outDir = realpath($outDirValue);
-		$this->io->writeln("Downloading to $this->outDir");
+		$this->outDir = realpath( $outDirValue );
+		$this->io->writeln( "Downloading to $this->outDir" );
 
 		// Get the pages.
 		$this->io->text( 'Getting subpages' );
@@ -76,29 +83,38 @@ class Download extends Command {
 			$prefix = str_pad( $subpageNum + 1, 3, '0', STR_PAD_LEFT );
 			$this->getPageText( $wikisource->getMediawikiApi(), $subpage, $prefix );
 		}
-		
+		return 0;
 	}
 
+	/**
+	 * Fetch the text of a single page, and write it to a file.
+	 * @param MediawikiApi $api The API.
+	 * @param string $title Wiki page title.
+	 * @param string $prefix Filename prefix.
+	 */
 	protected function getPageText( MediawikiApi $api, $title, $prefix ) {
-		$this->io->text("Getting text for $title");
+		$this->io->text( "Getting text for $title" );
 		$requestParse = FluentRequest::factory()
 			->setAction( 'parse' )
 			->setParam( 'page', $title )
-            ->setParam( 'disablelimitreport', true )
+			->setParam( 'disablelimitreport', true )
 			->setParam( 'prop', 'text' );
 		$pageParse = $api->getRequest( $requestParse, 'parse' );
 		$html = $pageParse['parse']['text']['*'];
 		$htmlDir = $this->outDir . '/html';
-		if (!is_dir($htmlDir)) {
-			mkdir($htmlDir);
+		if ( !is_dir( $htmlDir ) ) {
+			mkdir( $htmlDir );
 		}
-		$filename = $htmlDir.'/'. $prefix .'_' . $this->makeFilename($title) . '.html';
+		$filename = $htmlDir.'/'. $prefix .'_' . $this->makeFilename( $title ) . '.html';
 		file_put_contents( $filename, $html );
 	}
 
-	protected function makeFilename($str)
-	{
-		return str_replace(' ', '_', str_replace('/', '__', $str));
+	/**
+	 * @param string $str The string to fix.
+	 * @return string
+	 */
+	protected function makeFilename( $str ) {
+		return str_replace( ' ', '_', str_replace( '/', '__', $str ) );
 	}
 
 }
