@@ -71,9 +71,9 @@ class Download extends Command {
 
 		// Get the pages.
 		$this->io->text( 'Getting subpages' );
-		$this->getPageText( $wikisource->getMediawikiApi(), $title, '__' );
+		$this->getPageText( $wikisource->getMediawikiApi(), $title, '000' );
 		foreach ( $work->getSubpages() as $subpageNum => $subpage ) {
-			$prefix = str_pad( $subpageNum + 1, 2, '0', STR_PAD_LEFT );
+			$prefix = str_pad( $subpageNum + 1, 3, '0', STR_PAD_LEFT );
 			$this->getPageText( $wikisource->getMediawikiApi(), $subpage, $prefix );
 		}
 		

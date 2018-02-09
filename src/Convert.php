@@ -48,16 +48,18 @@ class Convert extends Command
             $latexFiles[] = $filename;
         }
 
-        // Create the main.tex file, which includes all pages.
+        // Create the main.tex file if needed, which includes all pages.
         $mainTexFile = dirname( $latexDir ) . '/main.tex';
-        $latexSource = '\\documentclass{book}'."\n"
-            .'\\usepackage{hyperref, booktabs, longtable, graphicx}'."\n"
-            .'\\begin{document}'."\n";
-        foreach ( $latexFiles as $file ) {
-            $latexSource .= '\\include{./latex/' . $file . '}' . "\n";
+        if ( !file_exists( $mainTexFile ) ) {
+            $latexSource = '\\documentclass{book}'."\n"
+                .'\\usepackage{hyperref, booktabs, longtable, graphicx}'."\n"
+                .'\\begin{document}'."\n";
+            foreach ( $latexFiles as $file ) {
+                $latexSource .= '\\include{./latex/' . $file . '}' . "\n";
+            }
+            $latexSource .= '\\end{document}'."\n";
+            $this->io->writeln( "Writing $mainTexFile" );
+            file_put_contents( $mainTexFile, $latexSource );
         }
-        $latexSource .= '\\end{document}'."\n";
-        $this->io->writeln( "Writing $mainTexFile" );
-        file_put_contents( $mainTexFile, $latexSource );
     }
 }

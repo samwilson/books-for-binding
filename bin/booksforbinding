@@ -5,11 +5,9 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use Samwilson\BooksForBinding\Convert;
 use Samwilson\BooksForBinding\Download;
-use Samwilson\BooksForBinding\Filter;
 use Symfony\Component\Console\Application;
 
 $application = new Application();
 $application->add(new Download());
 $application->add(new Convert());
-$application->add(new Filter());
 $application->run();
