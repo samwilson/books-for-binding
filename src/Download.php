@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\DomCrawler\Crawler;
 use Wikisource\Api\WikisourceApi;
 
 class Download extends Command {
@@ -32,7 +33,7 @@ class Download extends Command {
 		$this->addOption( 'lang', 'l', InputOption::VALUE_REQUIRED, $langDesc );
 		$titleDesc = 'The title of the work to download';
 		$this->addOption( 'title', 't', InputOption::VALUE_REQUIRED, $titleDesc );
-		$titleDesc = 'The output directory (the HTML files will be put in this directory);'
+		$titleDesc = "The output directory\n(the HTML files will be put in this directory);\n"
 			. 'defaults to the current directory';
 		$this->addOption( 'outdir', 'o', InputOption::VALUE_OPTIONAL, $titleDesc );
 	}
@@ -101,6 +102,21 @@ class Download extends Command {
 			->setParam( 'prop', 'text' );
 		$pageParse = $api->getRequest( $requestParse, 'parse' );
 		$html = $pageParse['parse']['text']['*'];
+
+		// Clean HTML. This is probably quite fragile and could be done in a better way.
+		$htmlCrawler = new Crawler();
+		// Note the slightly odd way of ensuring the HTML content is loaded as UTF8.
+		$htmlCrawler->addHtmlContent( "<div>$html</div>", 'UTF-8' );
+		// Remove 'noprint' and 'ws-noexport'.
+		$xpath = '//*[contains(@class, "noprint") or contains(@class, "ws-noexport")]';
+		$htmlCrawler->filterXPath($xpath)->each(function(Crawler $crawler) {
+			foreach ($crawler as $node) {
+				$node->parentNode->removeChild($node);
+			}
+		});
+		$html = $htmlCrawler->html();
+
+		// Write file.
 		$htmlDir = $this->outDir . '/html';
 		if ( !is_dir( $htmlDir ) ) {
 			mkdir( $htmlDir );
