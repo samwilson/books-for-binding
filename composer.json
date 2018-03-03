@@ -7,7 +7,8 @@
     "require": {
         "wikisource/api": "^1.2",
         "tedivm/stash": "^0.14",
-        "symfony/console": "^3.3"
+        "symfony/console": "^3.3",
+        "symfony/yaml": "^3.0"
     },
     "require-dev": {
         "jakub-onderka/php-parallel-lint": "^0.9",

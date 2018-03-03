@@ -13,6 +13,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\Yaml\Yaml;
 use Wikisource\Api\WikisourceApi;
 
 class Download extends Command {
@@ -49,14 +50,20 @@ class Download extends Command {
 		$wsApi = new WikisourceApi();
 
 		// Cache.
-		$cache = new Pool( new FileSystem( [ 'path' => __DIR__.'/../cache' ] ) );
+		$cache = new Pool( new FileSystem( [ 'path' => __DIR__ . '/../cache' ] ) );
 		$wsApi->setCache( $cache );
+
+		// Check language input.
+		if ( !$input->getOption( 'lang' ) ) {
+			$this->io->error( 'Please specify a language' );
+			return 1;
+		}
 
 		// Make sure the work exists.
 		$wikisource = $wsApi->fetchWikisource( $input->getOption( 'lang' ) );
 		$title = $input->getOption( 'title' );
 		if ( empty( $title ) ) {
-			$this->io->error( 'Please specify a title.' );
+			$this->io->error( 'Please specify a title' );
 			return 1;
 		}
 		try {
@@ -77,13 +84,38 @@ class Download extends Command {
 		$this->outDir = realpath( $outDirValue );
 		$this->io->writeln( "Downloading to $this->outDir" );
 
+		$metabook = [
+			'title' => $work->getWorkTitle(),
+			'author' => join( ', ', $work->getAuthors() ),
+			'year' => $work->getYear(),
+			'publisher' => $work->getPublisher(),
+			'items' => [],
+		];
+
 		// Get the pages.
 		$this->io->text( 'Getting subpages' );
 		$this->getPageText( $wikisource->getMediawikiApi(), $title, '000' );
 		foreach ( $work->getSubpages() as $subpageNum => $subpage ) {
 			$prefix = str_pad( $subpageNum + 1, 3, '0', STR_PAD_LEFT );
-			$this->getPageText( $wikisource->getMediawikiApi(), $subpage, $prefix );
+			$filename = $this->getPageText( $wikisource->getMediawikiApi(), $subpage, $prefix );
+			$metabook['items'][] = [
+				'title' => $subpage,
+				'url' => 'https://'.$wikisource->getLanguageCode().'.wikisource.org/wiki/'.$subpage,
+				'content_type' => 'text/html',
+				'type' => 'article',
+				'pageid' => '',
+				'revision' => '',
+				'latest' => '',
+				'currentVersion' => '',
+				'timestamp' => '',
+				'file' => 'html/'.basename( $filename ),
+			];
 		}
+
+		// Write metabook.yaml\
+		$metabookFilename = $this->outDir . '/metabook.yaml';
+		file_put_contents( $metabookFilename, Yaml::dump( $metabook, 3 ) );
+
 		return 0;
 	}
 
@@ -92,6 +124,7 @@ class Download extends Command {
 	 * @param MediawikiApi $api The API.
 	 * @param string $title Wiki page title.
 	 * @param string $prefix Filename prefix.
+	 * @return string The full path and filename of the written HTML file.
 	 */
 	protected function getPageText( MediawikiApi $api, $title, $prefix ) {
 		$this->io->text( "Getting text for $title" );
@@ -107,13 +140,17 @@ class Download extends Command {
 		$htmlCrawler = new Crawler();
 		// Note the slightly odd way of ensuring the HTML content is loaded as UTF8.
 		$htmlCrawler->addHtmlContent( "<div>$html</div>", 'UTF-8' );
-		// Remove 'noprint' and 'ws-noexport'.
-		$xpath = '//*[contains(@class, "noprint") or contains(@class, "ws-noexport")]';
-		$htmlCrawler->filterXPath($xpath)->each(function(Crawler $crawler) {
-			foreach ($crawler as $node) {
-				$node->parentNode->removeChild($node);
+		// Remove unwanted classes.
+		$xpath = '//*['
+			. 'contains(@class, "noprint")'
+			. ' or contains(@class, "ws-noexport")'
+			. ' or contains(@class, "ws-pagenum")'
+			. ']';
+		$htmlCrawler->filterXPath( $xpath )->each( function ( Crawler $crawler ) {
+			foreach ( $crawler as $node ) {
+				$node->parentNode->removeChild( $node );
 			}
-		});
+		} );
 		$html = $htmlCrawler->html();
 
 		// Write file.
@@ -123,6 +160,7 @@ class Download extends Command {
 		}
 		$filename = $htmlDir.'/'. $prefix .'_' . $this->makeFilename( $title ) . '.html';
 		file_put_contents( $filename, $html );
+		return $filename;
 	}
 
 	/**

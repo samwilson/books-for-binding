@@ -44,6 +44,8 @@ composer install --no-dev
    ```bash
    git checkout -b master
    ```
+6. Go back to the `unchanged` branch and update it, committing the changes.
+7. Go to `master` and merge `unchanged`.
 
 ## License
 
